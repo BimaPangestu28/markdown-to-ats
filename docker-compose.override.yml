@@ -1,0 +1,28 @@
+# ============================================================================
+# Docker Compose Development Override
+# Automatically loaded when running docker-compose in development
+# ============================================================================
+
+version: '3.8'
+
+services:
+  cv-generator:
+    build:
+      target: development
+    container_name: cv-generator-dev
+    environment:
+      - NODE_ENV=development
+      - PORT=8081
+    volumes:
+      # Mount source code for hot reload
+      - ./src:/app/src:ro
+      - ./public:/app/public
+      - ./template.md:/app/template.md:ro
+      # Node modules volume for better performance
+      - node_modules:/app/node_modules
+    command: ["npm", "run", "server:dev"]
+    stdin_open: true
+    tty: true
+
+volumes:
+  node_modules:

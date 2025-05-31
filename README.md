@@ -17,11 +17,29 @@ Generate professional ATS-friendly CV PDFs from markdown input with clean, profe
 
 ## Prerequisites
 
-- Node.js (v16 or higher)
+### For Docker Installation
+- Docker Engine (20.10.0 or higher)
+- Docker Compose (2.0.0 or higher)
+
+### For Local Development
+- Node.js (v22 or higher)
 - npm or yarn package manager
 
 ## Installation
 
+### Option 1: Docker (Recommended)
+```bash
+# Clone the repository
+git clone <repository-url>
+cd markdown-to-ats
+
+# Build and run with Docker Compose
+docker-compose up -d
+
+# Access the application at http://localhost:8081
+```
+
+### Option 2: Local Development
 ```bash
 # Clone or create the project
 cd markdown-to-ats
@@ -64,12 +82,43 @@ npm run generate my-resume.md --output my-resume.pdf
 ```
 
 ### Available Commands
+
+#### Local Development
 ```bash
 npm start          # Show help and project information
 npm run generate   # Generate CV from markdown file (CLI)
 npm run dev        # Run CLI in development mode with file watching
 npm run server     # Start web server interface
 npm run server:dev # Start web server in development mode
+```
+
+#### Docker Commands (using Makefile)
+```bash
+# Quick start
+make quick-start                  # Build and run production
+make quick-dev                    # Build and run development with logs
+
+# Build commands
+make build                        # Build production image
+make build-dev                    # Build development image
+make rebuild                      # Clean and rebuild production
+
+# Run commands
+make run                          # Run production container
+make run-dev                      # Run development container
+make up                           # Start with Docker Compose (production)
+make up-dev                       # Start with Docker Compose (development)
+
+# Management commands
+make stop                         # Stop container
+make down                         # Stop all services
+make logs                         # Show container logs
+make status                       # Show container status
+make health                       # Check application health
+
+# Cleanup commands
+make clean                        # Remove images and containers
+make clean-all                    # Deep cleanup including volumes
 ```
 
 ## Markdown Template Structure

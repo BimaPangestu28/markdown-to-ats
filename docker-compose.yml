@@ -1,0 +1,63 @@
+# ============================================================================
+# Docker Compose Configuration for Markdown to ATS CV Generator
+# Professional setup with development and production profiles
+# ============================================================================
+
+version: '3.8'
+
+services:
+  # ============================================================================
+  # CV Generator Application
+  # ============================================================================
+  cv-generator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: cv-generator-app
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      - NODE_ENV=production
+      - PORT=8081
+    volumes:
+      # Persistent storage for uploads (optional)
+      - uploads_data:/app/public/uploads
+    networks:
+      - cv-generator-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:8081/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cv-generator.rule=Host(`cv-generator.local`)"
+      - "traefik.http.services.cv-generator.loadbalancer.server.port=8081"
+
+# ============================================================================
+# Named Volumes
+# ============================================================================
+volumes:
+  uploads_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./data/uploads
+
+# ============================================================================
+# Networks
+# ============================================================================
+networks:
+  cv-generator-network:
+    driver: bridge
+    name: cv-generator-net
+
+---
+# ============================================================================
+# Docker Compose Override for Development
+# File: docker-compose.override.yml (automatically loaded in development)
+# ============================================================================
