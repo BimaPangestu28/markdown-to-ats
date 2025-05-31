@@ -1,0 +1,30 @@
+{
+  "name": "markdown-to-ats-cv",
+  "version": "1.0.0",
+  "description": "Generate professional ATS-friendly CV PDFs from markdown input",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "build": "npm install",
+    "generate": "node src/generateCv.js",
+    "server": "node src/server.js",
+    "server:dev": "nodemon src/server.js"
+  },
+  "keywords": ["cv", "resume", "ats", "pdf", "markdown", "generator"],
+  "author": "Bima Pangestu",
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^21.6.1",
+    "marked": "^11.1.1",
+    "commander": "^11.1.0",
+    "chalk": "^5.3.0",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
